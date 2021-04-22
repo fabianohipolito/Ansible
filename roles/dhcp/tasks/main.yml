@@ -1,0 +1,29 @@
+---
+# Instalação e configuração do DHCP no debian
+
+#- name: Atualização da distribuição debian 
+# apt: update_cache=yes upgrade=yes
+# when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Instalando o DHCP 
+  apt: name={{dhcp_packages_debian}} state=latest update_cache=yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  #- name:  Backup do Arquivo dhcpd.conf
+  #command: mv /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bkp
+  #when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Configurando o Arquivo dhcpd.conf
+  template: src=dhcpd.conf dest=/etc/dhcp force=yes owner=root mode=0755
+  #notify: Restart dhcp
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+
+- name: Configurando o Arquivo Default isc-dhcp-server
+  template: src=isc-dhcp-server dest=/etc/default force=yes owner=root mode=0755
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Reniciando o DHCPD
+  command: /etc/init.d/isc-dhcp-server restart
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+

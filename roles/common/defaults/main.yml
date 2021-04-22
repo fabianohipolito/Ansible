@@ -1,0 +1,19 @@
+---
+# Instalação pacotes debian
+
+ common_packages_debian:
+      - vim
+      - nmap
+      - net-tools
+      - wget
+        #- openjdk-8-jdk
+      
+      
+ common_packages_redhat:
+      - vim
+      - nmap
+      - net-tools
+      - wget
+        # - openjdk-8-jdk
+ 
+...

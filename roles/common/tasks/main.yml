@@ -1,0 +1,69 @@
+---
+
+#---Configurações Gerais Debian e CentOS ---#
+
+
+- name: Alteração do .bashrc user Debian
+  template: src=debian/user/.bashrc dest=/home/suporte force=yes owner=root group=root mode=755
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    
+- name: Alteração do .bashrc root Debian
+  template: src=debian/root/.bashrc dest=/root force=yes owner=root group=root mode=0755 
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+ 
+- name: Alterando o nome da Maquina Debian 
+  template: src=debian/hostname dest=/etc force=yes owner=root group=root mode=0755
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+ 
+- name: Configuração do /etc/hosts debian
+  template: src=debian/hosts dest=/etc force=yes owner=root group=root mode=0755  
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Configurando arquivo issue no Debian e CentOS
+  template: src=issue dest=/etc force=yes owner=root group=root mode=0755 
+
+- name: Configurando arquivo issue.net no Debian e CentOS 
+  template: src=issue.net dest=/etc force=yes owner=root group=root mode=0755 
+  
+- name: Configurando arquivo motd no Debian CentOS
+  template: src=motd dest=/etc force=yes owner=root group=root mode=0755
+  
+
+- name: Instalação dos Pacotes no Debian
+  apt: name={{common_packages_debian}} state=latest update_cache=yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Configuração do vimrc no Debian
+  template: src=debian/vimrc dest=/etc/vim force=yes owner=root group=root mode=0644   
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  #---Configurações Gerais CentOS ---#
+
+  
+- name: Alteração do .bashrc user CentOS
+  template: src=CentOS/user/.bashrc dest=/home/suporte force=yes owner=root group=root mode=644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+    
+- name: Alteração do .bashrc root CentOS
+  template: src=CentOS/root/.bashrc dest=/root force=yes owner=root group=root mode=0644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+ 
+- name: Alterando o nome da Maquina CentOS 
+  template: src=CentOS/hostname dest=/etc force=yes owner=root group=root mode=0644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+ 
+- name: Configuração do /etc/hosts CentOS
+  template: src=CentOS/hosts dest=/etc force=yes owner=root group=root mode=0644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+
+- name: Instalação dos Pacotes no CentOS
+  yum: name={{common_packages_redhat}} state=latest update_cache=yes
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+
+- name: Configuração do vimrc no CentOS
+  template: src=CentOS/vimrc dest=/etc/vim force=yes owner=root group=root mode=0644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+...

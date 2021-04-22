@@ -1,0 +1,8 @@
+---
+# defaults file for dhcp
+
+
+dhcp_packages_debian:
+        - isc-dhcp-server
+
+...

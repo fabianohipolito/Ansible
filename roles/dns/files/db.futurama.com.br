@@ -1,0 +1,19 @@
+;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	ns1.futurama.com.br. root.futurama.com.br. (
+			    100		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@ 				IN	NS 	ns1.futurama.com.br.
+ns1				IN	A	192.168.1.10
+;@	IN	A	127.0.0.1
+;@	IN	AAAA	::1
+debian				IN	A 	192.168.1.10
+gateway				IN	A 	192.168.1.1
+git 				IN	A 	192.168.1.60
+;www	IN	CNAME 	futurama.com.br.

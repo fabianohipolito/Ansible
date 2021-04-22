@@ -1,0 +1,14 @@
+---
+# defaults file for DNS
+
+ dns_packages_debian:
+         - bind9
+         - bind9utils
+
+ dns_packages_centos:
+   - bind
+   - bind-libs
+   - bind-utils
+
+
+...

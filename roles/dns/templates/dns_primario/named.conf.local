@@ -1,0 +1,17 @@
+#Zona Direta
+zone "futurama.com.br" {
+	type master;
+	file "/var/cache/bind/db.192";
+	allow-transfer { 192.168.1.2; };
+	notify yes;
+	also-notify { 192.168.1.2; };
+};
+
+#Zona Reversa
+zone "1.168.192.in-addr.arpa" {
+	type master;  
+	file "/var/cache/bind/rev.futurama";
+	allow-transfer { 192.168.1.2; };
+	notify yes;
+	also-notify { 192.168.1.2; };
+};

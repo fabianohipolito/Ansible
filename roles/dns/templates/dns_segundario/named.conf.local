@@ -1,0 +1,13 @@
+#Zona Direta
+zone "futurama.com.br" {
+	type slave;
+	masters { 192.168.1.3; };
+	file "/var/named/slaves/db.slave.dexter";
+};
+
+#Zona Reversa
+zone "200.168.192.in-addr.arpa" {
+	type slave;
+	masters { 192.168.1.3; };
+	file "/var/named/slaves/rev.slave.dexter";
+};

@@ -1,0 +1,5 @@
+---
+# Restart di httpd
+- name: reatart httpd
+  systemd: name:=httpd state=restartted daemon_reload=yes enable=yes
+...

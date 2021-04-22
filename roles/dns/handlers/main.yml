@@ -1,0 +1,9 @@
+---
+# Reniciando o servido do DNS
+
+- name: Restart dns
+  systemd: state=restarted daemon_reload=yes name=bind9  enabled=yes
+
+  #- name: Restart dns_centOS
+  #systemd: name=named.service state=restarted daemon_reload=yes enable=yes
+...

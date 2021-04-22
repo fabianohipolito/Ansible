@@ -1,0 +1,13 @@
+$TTL 86400 ; default para todos os registros sem TTL 
+@       IN      SOA     ns1.futurama.com.br.  root.futurama.com.br. ( 
+                2015030301; serial 
+                8h ; refresh 
+                1h ; retry 
+                3d ; expire 
+                3h ); negative caching ttl 
+; 
+@               IN              NS      ns1.futurama.com.br. 
+ns1		IN		A	192.168.1.2
+
+2		IN		PTR	one.futurama.com.br.
+2		IN		PTR	mail.futurama.com.br.

@@ -1,0 +1,33 @@
+$TTL 86400 ; Tempo em Segundos que o Cache ira permanecer nos DNS do Mundo 
+@       IN      SOA     ns1.futurama.com.br.  root.futurama.com.br. ( 
+                2016060101; serial 
+                8h ; refresh 
+                1h ; retry 
+                3d ; expire 
+                3h ) ; negative caching ttl 
+@               IN              NS      ns1.futurama.com.br. 
+ns1             IN              A       192.168.1.2
+
+@               IN              A       192.168.1.3 
+
+
+intranet	IN		A	192.168.1.3
+bkpreport	IN		CNAME	intranet
+backup		IN		CNAME	intranet
+webmail		IN		CNAME	intranet
+sarg		IN		CNAME	intranet
+ftp             IN              CNAME   intranet
+
+@               IN              MX      10 mail.futurama.com.br. 
+mail            IN              A       192.168.1.2
+smtp            IN              CNAME   mail 
+pop             IN              CNAME   mail 
+imap            IN              CNAME   mail 
+
+ldap		IN		A	192.168.1.2
+
+
+
+; Configuração do DNS secundário 
+@         IN        NS      ns2.futurama.com.br.
+ns2       IN        A       192.168.1.3

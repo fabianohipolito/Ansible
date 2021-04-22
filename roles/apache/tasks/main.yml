@@ -1,0 +1,60 @@
+---
+# Instalacao e configuracao do apache
+
+- name: Configuraçao do firewall - Liberando porta 80/tcp
+  command: firewall-cmd --permanent --add-port=80/tcp
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Configuração do firewall - Liberando porta 443/tcp
+  command: firewall-cmd --permanent --add-port=443/tcp
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+  
+- name: Configuracão do firewall - Mantendo as regras 
+  command: firewall-cmd --reload
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Desabilitando o SELINUX Permanente
+  replace:
+          dest: /etc/selinux/config
+          regexp: 'SELINUX=enforcing'
+          replace: 'SELINUX=disabled'
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Instalação do apache no CentOS
+  yum: name={{apache_packages_centos}} state=latest update_cache=yes
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Backup do arquivo httpd.conf
+  command: mv /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bkp
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Configurando o arquivo httpd.conf
+  template: src=httpd.conf dest=/etc/httpd/conf force=yes owner=root mode=0644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Configurando o site
+  copy: src=/home/suporte/Documentos/futurama dest=/var/www/html force=yes owner=apache mode=755
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Criando diretorio utilizado para virtual host
+  file: path={{item}} state=directory mode=644 owner=root group=root
+  with_items:
+          - /etc/httpd/sites
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+
+- name: Configurando permissao do diretorio /var/www/html/futurama
+  command: chown -R apache.apache /var/www/html/futurama
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+
+- name: Configuração do arquivo Virtual Host
+  template: src=intranet.conf dest=/etc/httpd/sites force=yes owner=root mode=644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Reniciando o httpd
+  command: systemctl restart httpd
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+...

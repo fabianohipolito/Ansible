@@ -1,0 +1,7 @@
+---
+# Reniciando DHCP
+
+#- name: Restart dhcpd
+#systemd: state=restarted daemon_reload=yes name=isc-dhcp-server enabled=yes
+
+...

@@ -1,0 +1,8 @@
+ansible_ssh_port: 22
+ansible_ssh_user: suporte
+ansible_ssh_pass: Tricolor@08
+ansible_become: yes
+ansible_become_method: su
+ansible_become_user: root
+ansible_become_pass: Tricolor@08
+ansible_connection: ssh

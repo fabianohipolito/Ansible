@@ -1,0 +1,72 @@
+---
+# Instalação e Configuração e Instalação do  Dns no Debian e CentOS
+
+- name: Instalação e Configração do DNS no Debian
+  apt: name={{dns_packages_debian}} state=latest  update_cache=yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Backup do named.conf.local
+  command: mv /etc/bind/named.conf.local /etc/bind/named.conf.local.bkp
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  
+- name: Configurando o Named.conf.local
+  template: src=dns_primario/named.conf.local dest=/etc/bind  force=yes owner=root mode=0644
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  
+- name: Backup do named.conf.options
+  command: mv /etc/bind/named.conf.options dest=/etc/bind/named.conf.options.bkp
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Configurando o named.conf.options
+  template: src=dns_primario/named.conf.options dest=/etc/bind force=yes owner=root mode=0644
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Criando arquivo ACL
+  template: src=dns_primario/acl dest/etc/bind force=yes owner=root mode=0644
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Configurando Zona Primaria
+  template: src=dns_primario/db.192 dest=/var/cache/bind  force=yes owner=root mode=0644
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Configurando Zona Reverso
+  template: src=dns_primario/rev.futurama dest=/var/cache/bind  force=yes owner=root mode=0644
+  notify:
+   - Restart dns  
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+
+- name: Configurando o resolve.conf
+  template: src=dns_primario/resolv.conf dest=/etc force=yes owner=root mode=0644
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  
+- name: Instaladando  Servidor DNS segundario no CentOS
+  yum: name={{dns_packages_centos}} state=latest update_cache=yes
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+ 
+- name: Backup do named.conf
+  command: mv /etc/named.conf dest=/etc/named.conf.bkp
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name:  Configurando o named.conf
+  template: src=dns_segundario/named.conf  dest=/etc/ force=yes owner=root mode=0644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name:  Backup do Arquivo named.conf.local
+  command: mv /etc/named.conf.local dest=/etc/named.conf.local.bkp
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Configurando named.conf.local CentOS
+  template: src=dns_segundario/named.conf.local dest=/etc force=yes owner=root mode=0644
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Configurando o resolve.conf CentOS
+  template: src=dns_segundario/resolv.conf dest=/etc/ force=yes owner=root mode=0755
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+
+- name: Reiniciando do DNS         
+  command: systemctl restart named.service
+  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+ 
+
+...

@@ -1,0 +1,10 @@
+---
+
+- name: Deploy da  Infraestrutura Futurama
+  hosts: all
+  roles:
+          - common
+          - dhcp
+          - dns
+          - apache
+...
