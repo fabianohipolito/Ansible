@@ -34,7 +34,7 @@
   when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
 
 - name: Configurando o site
-  copy: src=/home/suporte/Documentos/futurama dest=/var/www/html force=yes owner=apache mode=755
+  copy: src=/home/fabianohipolito/Repositório/Ansible/Login dest=/var/www/html force=yes owner=apache mode=755
   when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
 
 - name: Criando diretorio utilizado para virtual host
